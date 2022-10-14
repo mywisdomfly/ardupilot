@@ -253,21 +253,21 @@ const AP_Param::GroupInfo AC_AttitudeControl_Multi::var_info[] = {
     // @Param: INDI_KF
     // @DisplayName: INDI_KF
     // @Description: RPM to Thrust
-    // @Range: 0~1
+    // @Range: (value*1.0E-9.0)
     // @User: Advanced
     AP_GROUPINFO("INDI_KF", 9, AC_AttitudeControl_Multi, _INDI_KF, AC_ATC_INDI_KF),
 
     // @Param: INDI_KM
     // @DisplayName: INDI_KM
     // @Description: RPM to moment (RPM to yaw acceleration)
-    // @Range: 0~1
+    // @Range: (value*1.0E-9.0)
     // @User: Advanced
     AP_GROUPINFO("INDI_KM", 10, AC_AttitudeControl_Multi, _INDI_KM, AC_ATC_INDI_KM),
 
     // @Param: PROPELLER_INERTIA
     // @DisplayName: PROPELLER_INERTIA
-    // @Description: PROPELLER_INERTIA
-    // @Range: 0~1
+    // @Description: PROPELLER_INERTIA 
+    // @Range: (value*1.0E-9.0)
     // @User: Advanced
     AP_GROUPINFO("PROP_INERTIA", 11, AC_AttitudeControl_Multi, _PROPELLER_INERTIA, AC_ATC_PROPELLER_INERTIA),
     
@@ -300,7 +300,7 @@ const AP_Param::GroupInfo AC_AttitudeControl_Multi::var_info[] = {
     // @Param: INERTIA of Copter
     // @DisplayName: Copter_INERTIA
     // @Description:  INERTIA of Copter
-    // @Range: 0~1
+    // @Range: (value*1.0E-3.0)
     // @User: Advanced
     AP_GROUPINFO("COP_IXX", 16, AC_AttitudeControl_Multi, _qinertia.Ixx, AC_ATC_QINERTIA_IXX),
     AP_GROUPINFO("COP_IXY", 17, AC_AttitudeControl_Multi, _qinertia.Ixy, AC_ATC_QINERTIA_IXY),
@@ -497,15 +497,15 @@ void AC_AttitudeControl_Multi::update_indi_moment()
     inverse_moment.zero();
     for (int i = 0; i < 4; i++)
     {
-        inverse_moment.x += _motors.get_roll_factor(i)*_ARM_SCALE*_INDI_KF*_rpm_filtered[i]*_rpm_filtered[i];
-        inverse_moment.y += _motors.get_pitch_factor(i)*_ARM_SCALE*_INDI_KF*_rpm_filtered[i]*_rpm_filtered[i];
-        inverse_moment.z += _motors.get_yaw_factor(i)*(_INDI_KM*_rpm_filtered[i]*_rpm_filtered[i] + _PROPELLER_INERTIA*_delta_rpm[i]);
+        inverse_moment.x += _ARM_SCALE*_INDI_KF*1.0e-9f*_rpm_filtered[i]*_rpm_filtered[i]*_motors.get_roll_factor(i);
+        inverse_moment.y += _ARM_SCALE*_INDI_KF*1.0e-9f*_rpm_filtered[i]*_rpm_filtered[i]*_motors.get_pitch_factor(i);
+        inverse_moment.z += 1.0e-9f*_motors.get_yaw_factor(i)*(_INDI_KM*_rpm_filtered[i]*_rpm_filtered[i] + _PROPELLER_INERTIA*_delta_rpm[i]);
     }
     ////Step 3 Update moment from gyro
     Vector3f moment;
-    moment.x = _angular_acceleration.x * _qinertia.Ixx + _angular_acceleration.y*_qinertia.Ixy + _angular_acceleration.z * _qinertia.Ixz;
-    moment.y = _angular_acceleration.x * _qinertia.Iyx + _angular_acceleration.y*_qinertia.Iyy + _angular_acceleration.z * _qinertia.Iyz;
-    moment.z = _angular_acceleration.x * _qinertia.Izx + _angular_acceleration.y*_qinertia.Izy + _angular_acceleration.z * _qinertia.Izz;
+    moment.x = (_angular_acceleration.x * _qinertia.Ixx + _angular_acceleration.y*_qinertia.Ixy + _angular_acceleration.z * _qinertia.Ixz)*1.0e-3f;
+    moment.y = (_angular_acceleration.x * _qinertia.Iyx + _angular_acceleration.y*_qinertia.Iyy + _angular_acceleration.z * _qinertia.Iyz)*1.0e-3f;
+    moment.z = (_angular_acceleration.x * _qinertia.Izx + _angular_acceleration.y*_qinertia.Izy + _angular_acceleration.z * _qinertia.Izz)*1.0e-3f;
     ////Step 4 Compute the compensation_moment
     _compensation_moment_raw = ( inverse_moment - moment);
     _compensation_moment_raw.x *= _INDI_K_XY;

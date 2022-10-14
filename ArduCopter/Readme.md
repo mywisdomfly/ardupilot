@@ -40,11 +40,11 @@ I_{p} & -I_{p} & I_{p} & -I_{p}
 
 `ATC_MIN_INDI_SPD` The lowest speed start compensation and estimation. (RPM)
 
-`ATC_INDI_KF` The $K_f$ of the motor. 
+`ATC_INDI_KF` The $K_f$ of the motor (value*1.0E-9). 
 
-`ATC_INDI_KM` The $K_m$ of the motor. 
+`ATC_INDI_KM` The $K_m$ of the motor (value*1.0E-9). 
 
-`ATC_PROP_INERTIA` The $I_p$. $I_p$ is the propeller's inertia.
+`ATC_PROP_INERTIA` The $I_p$. $I_p$ is the propeller's inertia (value*1.0E-9).
 
 `ATC_CUTOFF_RPM` Cutoff freqency of the RPM ( $w_{f}$ ) filter. Shoud be same as the `ATC_WACC_CUTOFF`
 
@@ -64,4 +64,4 @@ I_{p} & -I_{p} & I_{p} & -I_{p}
 
 `INDI_K_Z`  The scale convert the moment to the command in Z(Yaw). 
 
-`COP_IXX - COP_IZZ` the inertia of the copter.
+`COP_IXX - COP_IZZ` the inertia of the copter (value*1.0E-3).
