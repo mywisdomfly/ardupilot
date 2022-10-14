@@ -16,28 +16,23 @@ $I_{v}\widehat{\dot{\Omega }}_{d}^{B}$ is the command form angular rate PID.
 
 $I_{p}$ is the propeller's inertia.
 
-$l $ is the arm length.
+$l$ is the arm length.
 
-$$
-\tau _{d} =\ \tau _{f} +I_{v}\left(\widehat{\dot{\Omega }}_{d}^{B} -\dot{\Omega }_{f}^{B}\right) =I_{v}\widehat{\dot{\Omega }}_{d}^{B} +\left( \tau _{f} -I_{v}\dot{\Omega }_{f}^{B}\right)
-$$
-$$
-\tau _{f} =G_{1} w_{f}^{2} +G_{2}\dot{w_{f}}
-$$
-$$
-G_{1} =\left[ -\begin{matrix}
+$$ \tau _{d} =\ \tau _{f} +I_{v}\left(\widehat{\dot{\Omega }}_{d}^{B} -\dot{\Omega }_{f}^{B}\right) =I_{v}\widehat{\dot{\Omega }}_{d}^{B} +\left( \tau _{f} -I_{v}\dot{\Omega }_{f}^{B}\right) $$
+
+$$ \tau _{f} =G_{1} w_{f}^{2} +G_{2}\dot{w_{f}} $$
+
+$$ G_{1} =\left[ -\begin{matrix}
 K_{f} l\sin \alpha  & -K_{f} l\sin \alpha  & -K_{f} l\sin \alpha  & K_{f} l\sin \alpha \\
 K_{f} l\cos \alpha  & -K_{f} l\cos \alpha  & K_{f} l\cos \alpha  & K_{f} l\cos \alpha \\
 K_{M} & -K_{M} & K_{M} & -K_{M}
-\end{matrix}\right]
-$$
-$$
-G_{2} \ =\ \left[\begin{matrix}
+\end{matrix}\right] $$
+
+$$ G_{2} \ =\ \left[\begin{matrix}
 0 & 0 & 0 & 0\\
 0 & 0 & 0 & 0\\
 I_{p} & -I_{p} & I_{p} & -I_{p}
-\end{matrix}\right]
-$$
+\end{matrix}\right] $$
 
 ## Parameters
 
