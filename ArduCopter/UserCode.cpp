@@ -40,6 +40,12 @@ void Copter::userhook_SlowLoop()
 void Copter::userhook_SuperSlowLoop()
 {
     // put your 1Hz code here
+    Vector3f mmm = attitude_control->get_indi_moment();
+    gcs().send_text(MAV_SEVERITY_INFO, "Mx=%f My=%f Mz=%f", mmm[0], mmm[1], mmm[2]);
+    // for (int i = 0; i < 4; i++)
+    // {
+    //     gcs().send_text(MAV_SEVERITY_INFO, "motor%d  r:%f  p:%f  y:%f",i, AP::motors()->get_roll_factor(i),AP::motors()->get_pitch_factor(i),AP::motors()->get_yaw_factor(i));
+    // }
 }
 #endif
 

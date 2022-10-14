@@ -101,6 +101,82 @@ void GCS_MAVLINK_Copter::send_attitude_target()
         thrust);                // Collective thrust, normalized to 0 .. 1
 }
 
+void GCS_MAVLINK_Copter::send_indi_info()
+{
+    
+    Vector3f moment,ang_acc;
+    VectorN<float,4> rpm,delta_rpm;
+    uint8_t data[128];
+    int idx=0;
+    moment = copter.attitude_control->get_indi_moment();
+    
+    memcpy(data+idx,&moment.x,sizeof(float));
+    idx += sizeof(float);
+    memcpy(data+idx,&moment.y,sizeof(float));
+    idx += sizeof(float);
+    memcpy(data+idx,&moment.z,sizeof(float));
+    idx += sizeof(float);
+    
+    ang_acc = copter.attitude_control->get_indi_angular_acceleration();
+    rpm = copter.attitude_control->get_indi_rpm_info();
+    delta_rpm = copter.attitude_control->get_indi_delta_rpm_info();
+    memcpy(data+idx,&ang_acc.x,sizeof(float));
+    idx += sizeof(float);
+    memcpy(data+idx,&ang_acc.y,sizeof(float));
+    idx += sizeof(float);
+    memcpy(data+idx,&ang_acc.z,sizeof(float));
+    idx += sizeof(float);
+    
+    memcpy(data+idx,&rpm[0],sizeof(float));
+    idx += sizeof(float);
+    memcpy(data+idx,&rpm[1],sizeof(float));
+    idx += sizeof(float);
+    memcpy(data+idx,&rpm[2],sizeof(float));
+    idx += sizeof(float);
+    memcpy(data+idx,&rpm[3],sizeof(float));
+    idx += sizeof(float);
+
+    memcpy(data+idx,&delta_rpm[0],sizeof(float));
+    idx += sizeof(float);
+    memcpy(data+idx,&delta_rpm[1],sizeof(float));
+    idx += sizeof(float);
+    memcpy(data+idx,&delta_rpm[2],sizeof(float));
+    idx += sizeof(float);
+    memcpy(data+idx,&delta_rpm[3],sizeof(float));
+    idx += sizeof(float);
+    for (int i = 0; i < 4; i++)
+    {
+        float r,p,y;
+        r=AP::motors()->get_roll_factor(i);
+        p=AP::motors()->get_pitch_factor(i);
+        y=AP::motors()->get_yaw_factor(i);
+        memcpy(data+idx,&(r),sizeof(float));
+        idx += sizeof(float);
+        memcpy(data+idx,&(p),sizeof(float));
+        idx += sizeof(float);
+        memcpy(data+idx,&(y),sizeof(float));
+        idx += sizeof(float);
+    }
+    //get set point
+    float r,p,y;
+    r=AP::motors()->get_roll()+AP::motors()->get_roll_ff();
+    p=AP::motors()->get_pitch()+AP::motors()->get_pitch_ff();
+    y=AP::motors()->get_yaw()+AP::motors()->get_yaw_ff();
+    memcpy(data+idx,&(r),sizeof(float));
+    idx += sizeof(float);
+    memcpy(data+idx,&(p),sizeof(float));
+    idx += sizeof(float);
+    memcpy(data+idx,&(y),sizeof(float));
+    idx += sizeof(float);
+    mavlink_msg_tunnel_send(chan,0,0,0,idx,data);
+}
+
+void GCS_MAVLINK_Copter::send_indi_moment()
+{
+    Vector3f moment = copter.attitude_control->get_indi_moment();
+    mavlink_msg_debug_vect_send(chan,"Moment   ", (uint64_t)AP_HAL::micros(),moment.x,moment.y,moment.z);
+}
+
 void GCS_MAVLINK_Copter::send_position_target_global_int()
 {
     Location target;
@@ -330,6 +406,16 @@ bool GCS_Copter::vehicle_initialised() const {
 bool GCS_MAVLINK_Copter::try_send_message(enum ap_message id)
 {
     switch(id) {
+
+    case MSG_TUNNEL:
+        CHECK_PAYLOAD_SIZE(TUNNEL);
+        send_indi_info();
+        break;
+    
+    case MSG_DEBUG_VECT:
+        CHECK_PAYLOAD_SIZE(DEBUG_VECT);
+        send_indi_moment();
+        break;
 
     case MSG_TERRAIN:
 #if AP_TERRAIN_AVAILABLE

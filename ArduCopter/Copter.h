@@ -74,6 +74,8 @@
 #include "defines.h"
 #include "config.h"
 
+#define USERHOOK_SUPERSLOWLOOP
+
 #if FRAME_CONFIG == HELI_FRAME
     #define AC_AttitudeControl_t AC_AttitudeControl_Heli
 #else

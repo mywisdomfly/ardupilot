@@ -9,6 +9,7 @@
 #pragma GCC optimize("O2")
 #endif
 #include "LowPassFilter.h"
+#include <AP_Math/vectorN.h>
 
 ////////////////////////////////////////////////////////////////////////////////////////////
 // DigitalLPF
@@ -134,4 +135,4 @@ template class LowPassFilter<long>;
 template class LowPassFilter<float>;
 template class LowPassFilter<Vector2f>;
 template class LowPassFilter<Vector3f>;
-
+template class LowPassFilter<VectorN<float,4>>;

@@ -3,7 +3,7 @@
 #pragma GCC optimize("O2")
 #endif
 #include "LowPassFilter2p.h"
-
+#include <AP_Math/vectorN.h>
 
 ////////////////////////////////////////////////////////////////////////////////////////////
 // DigitalBiquadFilter
@@ -129,3 +129,4 @@ template class LowPassFilter2p<long>;
 template class LowPassFilter2p<float>;
 template class LowPassFilter2p<Vector2f>;
 template class LowPassFilter2p<Vector3f>;
+template class LowPassFilter2p<VectorN<float,4>>;

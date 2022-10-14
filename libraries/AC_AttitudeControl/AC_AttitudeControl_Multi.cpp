@@ -232,6 +232,110 @@ const AP_Param::GroupInfo AC_AttitudeControl_Multi::var_info[] = {
     // @User: Advanced
     AP_GROUPINFO("THR_MIX_MAN", 6, AC_AttitudeControl_Multi, _thr_mix_man, AC_ATTITUDE_CONTROL_MAN_DEFAULT),
 
+    //Param name total length must smaller than 16
+
+    // @Param: USE_INDI
+    // @DisplayName: USE_INDI
+    // @Description: Enable INDI feedforward 0 means disable
+    //          1 means enable
+    //          2 means start estimation but disable compensation
+    // @Range: 0 1 2
+    // @User: Advanced 
+    AP_GROUPINFO("USE_INDI", 7, AC_AttitudeControl_Multi, _use_indi, AC_ATC_USE_INDI),
+
+    // @Param: MIN_INDI_SPEED
+    // @DisplayName: MIN_INDI_SPEED
+    // @Description: Minimum speed to enable INDI
+    // @Range: 100.0-60000.0
+    // @User: Advanced
+    AP_GROUPINFO("MIN_INDI_SPD", 8, AC_AttitudeControl_Multi, _MIN_INDI_SPEED, AC_ATC_MIN_INDI_SPEED),
+
+    // @Param: INDI_KF
+    // @DisplayName: INDI_KF
+    // @Description: RPM to Thrust
+    // @Range: 0~1
+    // @User: Advanced
+    AP_GROUPINFO("INDI_KF", 9, AC_AttitudeControl_Multi, _INDI_KF, AC_ATC_INDI_KF),
+
+    // @Param: INDI_KM
+    // @DisplayName: INDI_KM
+    // @Description: RPM to moment (RPM to yaw acceleration)
+    // @Range: 0~1
+    // @User: Advanced
+    AP_GROUPINFO("INDI_KM", 10, AC_AttitudeControl_Multi, _INDI_KM, AC_ATC_INDI_KM),
+
+    // @Param: PROPELLER_INERTIA
+    // @DisplayName: PROPELLER_INERTIA
+    // @Description: PROPELLER_INERTIA
+    // @Range: 0~1
+    // @User: Advanced
+    AP_GROUPINFO("PROP_INERTIA", 11, AC_AttitudeControl_Multi, _PROPELLER_INERTIA, AC_ATC_PROPELLER_INERTIA),
+    
+    // @Param: CUT_OFF_RPM_FILTER
+    // @DisplayName: CUTOFF_RPM
+    // @Description: CUT_OFF_RPM_FILTER
+    // @Range: 0-Sample_rate_rpm/2
+    // @User: Advanced
+    AP_GROUPINFO("CUTOFF_RPM", 12, AC_AttitudeControl_Multi, _CUT_OFF_RPM_FILTER, AC_ATC_CUT_OFF_RPM_FILTER),   
+    // @Param: CUT_OFF_MOMENT_FILTER
+    // @DisplayName: CUTOFF_MOMENT
+    // @Description: CUT_OFF_MOMENT_FILTER
+    // @Range: 0-controller_rate/2
+    // @User: Advanced
+    AP_GROUPINFO("CUTOFF_MT", 13, AC_AttitudeControl_Multi, _CUT_OFF_MOMENT_FILTER, AC_ATC_CUT_OFF_MOMENT_FILTER),  
+
+    // @Param: MAX_MOMENT_XY
+    // @DisplayName: MAX_MOMENT_XY
+    // @Description: MAX_MOMENT_XY of INDI
+    // @Range: 0~1
+    // @User: Advanced
+    AP_GROUPINFO("MAX_MT_XY", 14, AC_AttitudeControl_Multi, _MAX_MOMENT_XY, AC_ATC_MAX_MOMENT_XY),
+    // @Param: MAX_MOMENT_Z
+    // @DisplayName: MAX_MOMENT_Z
+    // @Description: MAX_MOMENT_Z of INDI
+    // @Range: 0~1
+    // @User: Advanced
+    AP_GROUPINFO("MAX_MT_Z", 15, AC_AttitudeControl_Multi, _MAX_MOMENT_Z, AC_ATC_MAX_MOMENT_Z),
+
+    // @Param: INERTIA of Copter
+    // @DisplayName: Copter_INERTIA
+    // @Description:  INERTIA of Copter
+    // @Range: 0~1
+    // @User: Advanced
+    AP_GROUPINFO("COP_IXX", 16, AC_AttitudeControl_Multi, _qinertia.Ixx, AC_ATC_QINERTIA_IXX),
+    AP_GROUPINFO("COP_IXY", 17, AC_AttitudeControl_Multi, _qinertia.Ixy, AC_ATC_QINERTIA_IXY),
+    AP_GROUPINFO("COP_IXZ", 18, AC_AttitudeControl_Multi, _qinertia.Ixz, AC_ATC_QINERTIA_IXZ),
+    AP_GROUPINFO("COP_IYX", 19, AC_AttitudeControl_Multi, _qinertia.Iyx, AC_ATC_QINERTIA_IYX),
+    AP_GROUPINFO("COP_IYY", 20, AC_AttitudeControl_Multi, _qinertia.Iyy, AC_ATC_QINERTIA_IYY),
+    AP_GROUPINFO("COP_IYZ", 21, AC_AttitudeControl_Multi, _qinertia.Iyz, AC_ATC_QINERTIA_IYZ),    
+    AP_GROUPINFO("COP_IZX", 22, AC_AttitudeControl_Multi, _qinertia.Izx, AC_ATC_QINERTIA_IZX),
+    AP_GROUPINFO("COP_IZY", 23, AC_AttitudeControl_Multi, _qinertia.Izy, AC_ATC_QINERTIA_IZY),
+    AP_GROUPINFO("COP_IZZ", 24, AC_AttitudeControl_Multi, _qinertia.Izz, AC_ATC_QINERTIA_IZZ), 
+    
+    // @Param: INDI_ARM_S
+    // @DisplayName: INDI_ARM_S
+    // @Description:  if QUAD/X INDI_ARM_S=sqrt(2)*arm length. if if QUAD/PLUS INDI_ARM_S=2*arm length
+    // @Range: 0~1
+    // @User: Advanced  
+    AP_GROUPINFO("INDI_ARM_S", 25, AC_AttitudeControl_Multi, _ARM_SCALE, AC_ATC_ARM_SCALE),   
+    
+    // @Param: INDI_K_XY
+    // @DisplayName: INDI_K_XY
+    // @Description:  INDI_K_XY(Scale on roll and pitch)
+    // @Range: 0~1
+    // @User: Advanced  
+    AP_GROUPINFO("INDI_K_XY", 26, AC_AttitudeControl_Multi, _INDI_K_XY, AC_ATC_INDI_SCALE),   
+
+    // @Param: INDI_K_Z
+    // @DisplayName: INDI_K_Z
+    // @Description:  INDI_K_Z (Scale on yaw)
+    // @Range: 0~1
+    // @User: Advanced  
+    AP_GROUPINFO("INDI_K_Z", 27, AC_AttitudeControl_Multi, _INDI_K_Z, AC_ATC_INDI_SCALE),
+    
+    AP_GROUPINFO("WACC_CUTOFF", 28, AC_AttitudeControl_Multi, _ANGACC_CUTOFF, AC_ATC_ANGACC_CUTOFF),
+
+    AP_GROUPINFO("DRPM_CUTOFF", 29, AC_AttitudeControl_Multi, _DRPM_CUTOFF, AC_ATC_DRPM_CUTOFF),
     AP_GROUPEND
 };
 
@@ -243,6 +347,7 @@ AC_AttitudeControl_Multi::AC_AttitudeControl_Multi(AP_AHRS_View &ahrs, const AP_
     _pid_rate_yaw(AC_ATC_MULTI_RATE_YAW_P, AC_ATC_MULTI_RATE_YAW_I, AC_ATC_MULTI_RATE_YAW_D, 0.0f, AC_ATC_MULTI_RATE_YAW_IMAX, AC_ATC_MULTI_RATE_RP_FILT_HZ, AC_ATC_MULTI_RATE_YAW_FILT_HZ, 0.0f, dt)
 {
     AP_Param::setup_object_defaults(this, var_info);
+    init_indi();
 }
 
 // Update Alt_Hold angle maximum
@@ -340,23 +445,107 @@ void AC_AttitudeControl_Multi::update_throttle_rpy_mix()
     _throttle_rpy_mix = constrain_float(_throttle_rpy_mix, 0.1f, AC_ATTITUDE_CONTROL_MAX);
 }
 
+void AC_AttitudeControl_Multi::init_indi()
+{
+    _rpm_filter.set_cutoff_frequency(1.0f/_dt,_CUT_OFF_RPM_FILTER);
+    _moment_filter.set_cutoff_frequency(1.0f/_dt,_CUT_OFF_MOMENT_FILTER);
+    _drpm_filter.set_cutoff_frequency(1.0f/_dt,_DRPM_CUTOFF);
+    _ang_acc_filter.set_cutoff_frequency(1.0f/_dt,_ANGACC_CUTOFF);
+}
+
+void AC_AttitudeControl_Multi::update_indi_moment()
+{
+    if (_use_indi != 1 && _use_indi != 2)
+    {
+        return;
+    }
+    
+    //step 0 update angular acceleration
+    Vector3f gyro_indi = _ahrs.get_gyro_latest();
+    uint32_t gyro_time = AP::ins().get_singleton()->get_last_update_usec();
+    ang_acc_derivativtor.update(gyro_indi,gyro_time);
+
+    Vector3f _angular_acceleration_d = ang_acc_derivativtor.get_derivative();
+    _angular_acceleration = _ang_acc_filter.apply(_angular_acceleration_d);
+
+    //Step 1 Update RPM data 
+    VectorN<float,4> rpm_current;
+    const uint32_t now = AP_HAL::micros();
+    AP::esc_telem().get_rpm(0,rpm_current[0]);
+    AP::esc_telem().get_rpm(1,rpm_current[1]);
+    AP::esc_telem().get_rpm(2,rpm_current[2]);
+    AP::esc_telem().get_rpm(3,rpm_current[3]);
+    _rpm_filtered = _rpm_filter.apply(rpm_current);
+    // if (_use_indi == 1)
+    // {
+        if (_rpm_filtered[0] < _MIN_INDI_SPEED ||
+            _rpm_filtered[1] < _MIN_INDI_SPEED ||
+            _rpm_filtered[2] < _MIN_INDI_SPEED ||
+            _rpm_filtered[3] < _MIN_INDI_SPEED) //
+        {
+            _compensation_moment.zero();
+            return;
+        }
+    // }
+
+    rpm_derivativtor.update(_rpm_filtered,now);
+    auto _delta_rpm_d = rpm_derivativtor.get_derivative();
+    _delta_rpm = _drpm_filter.apply(_delta_rpm_d);
+
+    ////Step 2 Update moment from inverse dynamic
+    Vector3f inverse_moment;
+    inverse_moment.zero();
+    for (int i = 0; i < 4; i++)
+    {
+        inverse_moment.x += _motors.get_roll_factor(i)*_ARM_SCALE*_INDI_KF*_rpm_filtered[i]*_rpm_filtered[i];
+        inverse_moment.y += _motors.get_pitch_factor(i)*_ARM_SCALE*_INDI_KF*_rpm_filtered[i]*_rpm_filtered[i];
+        inverse_moment.z += _motors.get_yaw_factor(i)*(_INDI_KM*_rpm_filtered[i]*_rpm_filtered[i] + _PROPELLER_INERTIA*_delta_rpm[i]);
+    }
+    ////Step 3 Update moment from gyro
+    Vector3f moment;
+    moment.x = _angular_acceleration.x * _qinertia.Ixx + _angular_acceleration.y*_qinertia.Ixy + _angular_acceleration.z * _qinertia.Ixz;
+    moment.y = _angular_acceleration.x * _qinertia.Iyx + _angular_acceleration.y*_qinertia.Iyy + _angular_acceleration.z * _qinertia.Iyz;
+    moment.z = _angular_acceleration.x * _qinertia.Izx + _angular_acceleration.y*_qinertia.Izy + _angular_acceleration.z * _qinertia.Izz;
+    ////Step 4 Compute the compensation_moment
+    _compensation_moment_raw = ( inverse_moment - moment);
+    _compensation_moment_raw.x *= _INDI_K_XY;
+    _compensation_moment_raw.y *= _INDI_K_XY;
+    _compensation_moment_raw.z *=  _INDI_K_Z;
+    _compensation_moment_raw.x = constrain_float(_compensation_moment_raw.x ,-_MAX_MOMENT_XY,_MAX_MOMENT_XY);
+    _compensation_moment_raw.y = constrain_float(_compensation_moment_raw.y ,-_MAX_MOMENT_XY,_MAX_MOMENT_XY);
+    _compensation_moment_raw.z = constrain_float(_compensation_moment_raw.z ,-_MAX_MOMENT_Z,_MAX_MOMENT_Z);
+    _compensation_moment=_moment_filter.apply(_compensation_moment_raw);
+    
+}
+
 void AC_AttitudeControl_Multi::rate_controller_run()
 {
     // move throttle vs attitude mixing towards desired (called from here because this is conveniently called on every iteration)
     update_throttle_rpy_mix();
 
     _ang_vel_body += _sysid_ang_vel_body;
-
+    
+    update_indi_moment();
     Vector3f gyro_latest = _ahrs.get_gyro_latest();
 
     _motors.set_roll(get_rate_roll_pid().update_all(_ang_vel_body.x, gyro_latest.x, _motors.limit.roll) + _actuator_sysid.x);
-    _motors.set_roll_ff(get_rate_roll_pid().get_ff());
 
     _motors.set_pitch(get_rate_pitch_pid().update_all(_ang_vel_body.y, gyro_latest.y, _motors.limit.pitch) + _actuator_sysid.y);
-    _motors.set_pitch_ff(get_rate_pitch_pid().get_ff());
 
     _motors.set_yaw(get_rate_yaw_pid().update_all(_ang_vel_body.z, gyro_latest.z, _motors.limit.yaw) + _actuator_sysid.z);
-    _motors.set_yaw_ff(get_rate_yaw_pid().get_ff()*_feedforward_scalar);
+    
+    if (_use_indi == 1)
+    {
+        _motors.set_roll_ff(get_rate_roll_pid().get_ff() + _compensation_moment.x);
+        _motors.set_pitch_ff(get_rate_pitch_pid().get_ff()+_compensation_moment.y);
+        _motors.set_yaw_ff(get_rate_yaw_pid().get_ff()*_feedforward_scalar+_compensation_moment.z);
+    }
+    else
+    {
+        _motors.set_roll_ff(get_rate_roll_pid().get_ff());
+        _motors.set_pitch_ff(get_rate_pitch_pid().get_ff());
+        _motors.set_yaw_ff(get_rate_yaw_pid().get_ff()*_feedforward_scalar);
+    }
 
     _sysid_ang_vel_body.zero();
     _actuator_sysid.zero();
