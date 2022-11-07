@@ -336,6 +336,15 @@ const AP_Param::GroupInfo AC_AttitudeControl_Multi::var_info[] = {
     AP_GROUPINFO("WACC_CUTOFF", 28, AC_AttitudeControl_Multi, _ANGACC_CUTOFF, AC_ATC_ANGACC_CUTOFF),
 
     AP_GROUPINFO("DRPM_CUTOFF", 29, AC_AttitudeControl_Multi, _DRPM_CUTOFF, AC_ATC_DRPM_CUTOFF),
+    
+    // @Param: INDI_BIAS_{X,Y,Z}
+    // @DisplayName: INDI_BIAS_{X,Y,Z}
+    // @Description:  Minus a bias on X Y Z(*1.0E-3).
+    // @Range: 0~1
+    // @User: Advanced  
+    AP_GROUPINFO("INDI_BIAS_X", 30, AC_AttitudeControl_Multi, _INDI_BIAS_X, 0.0f), 
+    AP_GROUPINFO("INDI_BIAS_Y", 31, AC_AttitudeControl_Multi, _INDI_BIAS_Y, 0.0f), 
+    AP_GROUPINFO("INDI_BIAS_Z", 32, AC_AttitudeControl_Multi, _INDI_BIAS_Z, 0.0f), 
     AP_GROUPEND
 };
 
@@ -508,9 +517,9 @@ void AC_AttitudeControl_Multi::update_indi_moment()
     moment.z = (_angular_acceleration.x * _qinertia.Izx + _angular_acceleration.y*_qinertia.Izy + _angular_acceleration.z * _qinertia.Izz)*1.0e-3f;
     ////Step 4 Compute the compensation_moment
     _compensation_moment_raw = ( inverse_moment - moment);
-    _compensation_moment_raw.x *= _INDI_K_XY;
-    _compensation_moment_raw.y *= _INDI_K_XY;
-    _compensation_moment_raw.z *=  _INDI_K_Z;
+    _compensation_moment_raw.x = _compensation_moment_raw.x*_INDI_K_XY - _INDI_BIAS_X*1.0e-3;
+    _compensation_moment_raw.y = _compensation_moment_raw.y*_INDI_K_XY - _INDI_BIAS_Y*1.0e-3;
+    _compensation_moment_raw.z = _compensation_moment_raw.z*_INDI_K_Z - _INDI_BIAS_Z*1.0e-3;;
     _compensation_moment_raw.x = constrain_float(_compensation_moment_raw.x ,-_MAX_MOMENT_XY,_MAX_MOMENT_XY);
     _compensation_moment_raw.y = constrain_float(_compensation_moment_raw.y ,-_MAX_MOMENT_XY,_MAX_MOMENT_XY);
     _compensation_moment_raw.z = constrain_float(_compensation_moment_raw.z ,-_MAX_MOMENT_Z,_MAX_MOMENT_Z);

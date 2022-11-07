@@ -194,6 +194,9 @@ protected:
     AP_Float              _ARM_SCALE;
     AP_Float              _DRPM_CUTOFF;
     AP_Float              _ANGACC_CUTOFF;
+    AP_Float              _INDI_BIAS_X;
+    AP_Float              _INDI_BIAS_Y;
+    AP_Float              _INDI_BIAS_Z;
 
     LowPassFilter2p<VectorN<float,4>> _rpm_filter;
     LowPassFilter2pVector3f _moment_filter;

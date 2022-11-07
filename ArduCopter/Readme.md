@@ -65,3 +65,5 @@ I_{p} & -I_{p} & I_{p} & -I_{p}
 `INDI_K_Z`  The scale convert the moment to the command in Z(Yaw). 
 
 `COP_IXX - COP_IZZ` the inertia of the copter (value*1.0E-3).
+
+`INDI_BIAS_{X,Y,Z}` the INDI bias (Minus on INDI moment )(value*1.0E-3).
